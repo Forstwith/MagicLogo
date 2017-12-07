@@ -6,6 +6,7 @@
     <script src="js/Three.js"></script>
     <script src="js/Stats.js"></script>
     <script src="js/tween.min.js"></script>
+    <script src="js/TrackBallControls.js"></script>
 
     <style type="text/css">
         div#canvas-frame {
@@ -72,7 +73,7 @@
         var cube;
         var mesh;
         function initObject() {
-            var geometry = new THREE.CylinderGeometry( 100,150,400);
+            var geometry = new THREE.CubeGeometry(100 , 100 , 100);
             var material = new THREE.MeshLambertMaterial( { color:0xFFFFFF} );
             mesh = new THREE.Mesh( geometry,material);
             mesh.position = new THREE.Vector3(0,0,0);
@@ -86,7 +87,16 @@
             initLight();
             initObject();
             initTween();
+            initCameraControls();
             animation();
+
+        }
+        function initCameraControls() {
+            controls = new THREE.TrackballControls(camera);
+            camera.speed = 150
+            camera.minDistance = 0;
+            camera.maxDistance = 5000;
+//            controls.addEventListener('change' , render)
 
         }
         function initTween()
@@ -96,12 +106,10 @@
         }
         function animation()
         {
-
             renderer.render(scene, camera);
             requestAnimationFrame(animation);
-
+            controls.update()
             stats.update();
-            TWEEN.update();
         }
 
     </script>
